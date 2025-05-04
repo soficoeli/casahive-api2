@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import HexagonDivider from '@/components/HexagonDivider';
 import HexagonPattern from '@/components/HexagonPattern';
@@ -6,12 +7,19 @@ import HexagonImage from '@/components/HexagonImage';
 import AnimatedSection from '@/components/AnimatedSection';
 
 const Index = () => {
-  // Placeholder images - in a real project, these would be actual project images
+  // Project board images with the uploaded architectural drawings
   const projectBoardImages = [
-    '/placeholder.svg',
-    '/placeholder.svg',
-    '/placeholder.svg',
-    '/placeholder.svg'
+    '/lovable-uploads/ecf8b5b5-75a0-48be-88ff-a85eb7e2d704.png', // Memorial Justificativo
+    '/lovable-uploads/5b2dca05-eaec-4b3a-93fe-4fe6d5e3a4a2.png', // Plantas 1
+    '/lovable-uploads/84b0caa0-93ea-4fd4-bd54-128bf037a6d5.png', // Plantas 2
+    '/lovable-uploads/e87cf388-e24f-4358-9d24-0bc31079329f.png'  // Elevações e Cortes
+  ];
+  
+  const projectBoardTitles = [
+    "Memorial Justificativo",
+    "Plantas - Situação e Cobertura",
+    "Plantas - Habitação Familiar",
+    "Elevações e Cortes"
   ];
   
   const modelImages = [
@@ -73,10 +81,11 @@ const Index = () => {
               <div key={index} className="opacity-0 animate-fade-in" style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'forwards' }}>
                 <HexagonImage 
                   src={src} 
-                  alt={`Project board ${index + 1}`} 
+                  alt={projectBoardTitles[index]} 
                   isRectangular={true}
                   className="w-full"
                 />
+                <p className="mt-2 text-center font-medium text-sm text-hive-gray/80">{projectBoardTitles[index]}</p>
               </div>
             ))}
           </div>
