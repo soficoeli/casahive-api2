@@ -6,13 +6,17 @@ interface HexagonImageProps {
   src: string;
   alt: string;
   className?: string;
+  isRectangular?: boolean;
 }
 
-const HexagonImage = ({ src, alt, className }: HexagonImageProps) => {
+const HexagonImage = ({ src, alt, className, isRectangular = false }: HexagonImageProps) => {
   return (
     <div 
       className={cn(
-        "hexagon-frame overflow-hidden aspect-square shadow-md hover:shadow-lg transition-all", 
+        "overflow-hidden shadow-md hover:shadow-lg transition-all",
+        isRectangular 
+          ? "rectangular-frame aspect-[1.414/1] rounded-lg" 
+          : "hexagon-frame aspect-square",
         className
       )}
     >

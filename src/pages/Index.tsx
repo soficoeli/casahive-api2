@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import HexagonDivider from '@/components/HexagonDivider';
 import HexagonPattern from '@/components/HexagonPattern';
@@ -9,8 +8,6 @@ import AnimatedSection from '@/components/AnimatedSection';
 const Index = () => {
   // Placeholder images - in a real project, these would be actual project images
   const projectBoardImages = [
-    '/placeholder.svg',
-    '/placeholder.svg',
     '/placeholder.svg',
     '/placeholder.svg',
     '/placeholder.svg',
@@ -74,7 +71,12 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {projectBoardImages.map((src, index) => (
               <div key={index} className="opacity-0 animate-fade-in" style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'forwards' }}>
-                <HexagonImage src={src} alt={`Project board ${index + 1}`} />
+                <HexagonImage 
+                  src={src} 
+                  alt={`Project board ${index + 1}`} 
+                  isRectangular={true}
+                  className="w-full"
+                />
               </div>
             ))}
           </div>

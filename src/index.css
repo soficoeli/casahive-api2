@@ -63,7 +63,13 @@
   transition: transform 0.3s ease;
 }
 
-.hexagon-frame:hover {
+.rectangular-frame {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.hexagon-frame:hover,
+.rectangular-frame:hover {
   transform: scale(1.02);
 }
 
