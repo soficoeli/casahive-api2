@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -10,6 +9,8 @@ interface ImageCarouselProps {
 
 const ImageCarousel = ({ images, titles = [] }: ImageCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [scale, setScale] = useState(1);
 
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -17,6 +18,26 @@ const ImageCarousel = ({ images, titles = [] }: ImageCarouselProps) => {
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setScale(1);
+  };
+
+  const handleZoomIn = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setScale(prev => Math.min(prev + 0.5, 3));
+  };
+
+  const handleZoomOut = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setScale(prev => Math.max(prev - 0.5, 1));
+  };
+
+  const handleReset = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setScale(1);
   };
 
   return (
@@ -33,7 +54,8 @@ const ImageCarousel = ({ images, titles = [] }: ImageCarouselProps) => {
             <img 
               src={src} 
               alt={`Project image ${index + 1}`} 
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full cursor-pointer"
+              onClick={() => setIsModalOpen(true)}
             />
             {titles[index] && (
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
@@ -73,6 +95,54 @@ const ImageCarousel = ({ images, titles = [] }: ImageCarouselProps) => {
           />
         ))}
       </div>
+
+      {/* Fullscreen Modal with Zoom */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 bg-black z-50 flex items-center justify-center"
+          onClick={handleClose}
+        >
+          <div className="absolute top-4 right-4 flex space-x-4 z-10">
+            <button 
+              className="text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={handleZoomIn}
+              aria-label="Zoom in"
+            >
+              +
+            </button>
+            <button 
+              className="text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={handleZoomOut}
+              aria-label="Zoom out"
+            >
+              -
+            </button>
+            <button 
+              className="text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={handleReset}
+              aria-label="Reset zoom"
+            >
+              ↺
+            </button>
+            <button 
+              className="text-white bg-gray-800 hover:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={handleClose}
+              aria-label="Close"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="overflow-auto w-full h-full flex items-center justify-center">
+            <img 
+              src={images[currentIndex]} 
+              alt={titles[currentIndex] || `Project image ${currentIndex + 1}`} 
+              className="object-contain transition-transform duration-300"
+              style={{ transform: `scale(${scale})` }}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
